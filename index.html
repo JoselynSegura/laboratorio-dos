@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundial 2026 — Analítica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div id="login-screen">
+
+    <div class="login-panel-left">
+      <div class="login-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+        <span>Mundial 2026 — Analítica</span>
+      </div>
+      <div class="login-hero">
+        <h1 class="login-hero-title">Datos que<br>definen campeones</h1>
+        <p class="login-hero-sub">Estadísticas en tiempo real, rutas de clasificación y analítica exclusiva de la Copa Mundial FIFA 2026. Accede a la plataforma para explorar los datos del torneo.</p>
+      </div>
+    </div>
+
+    <div class="login-panel-right">
+      <div class="login-form-wrapper">
+        <p class="login-eyebrow">Bienvenido de nuevo</p>
+        <h2 class="login-form-title">Iniciar sesión</h2>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" autocomplete="email" required placeholder="tu@correo.com">
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" autocomplete="current-password" required placeholder="••••••••">
+              <button type="button" class="btn-toggle-pw" aria-label="Mostrar contraseña">
+                <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="login-forgot-row">
+            <a href="#" class="link-subtle">¿Olvidaste tu contraseña?</a>
+          </div>
+          <div id="login-error" class="error-msg hidden"></div>
+          <button type="submit" class="btn-login">Ingresar</button>
+          <p class="login-register-row">¿No tienes una cuenta? <a href="#" class="link-accent">Regístrate</a></p>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="modal-overlay" class="modal-overlay hidden"></div>
+
+  <div id="session-modal" class="modal hidden">
+    <h2>Sesión expirada</h2>
+    <p>Tu sesión ha terminado. Ingresa de nuevo para continuar.</p>
+    <div class="form-group">
+      <label for="reauth-email">Correo electrónico</label>
+      <input type="email" id="reauth-email" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label for="reauth-password">Contraseña</label>
+      <input type="password" id="reauth-password" autocomplete="current-password">
+    </div>
+    <div id="reauth-error" class="error-msg hidden"></div>
+    <button id="reauth-btn">Reautenticarse</button>
+  </div>
+
+  <div id="app-screen" class="hidden">
+    <header>
+      <h1>Mundial 2026 — Analítica</h1>
+      <nav>
+        <button class="nav-btn active" data-section="ruta-campeon">La Ruta del Campeón</button>
+        <button class="nav-btn" data-section="rastreador-goleadas">Rastreador de Goleadas</button>
+        <button class="nav-btn" data-section="el-muro">El Muro</button>
+        <button class="nav-btn" data-section="analitica-estadios">Analítica de Estadios</button>
+        <button class="nav-btn" data-section="radar-empates">Radar de Empates</button>
+      </nav>
+    </header>
+
+    <div id="banner-offline" class="banner banner-offline hidden">
+      Mostrando datos guardados — sin conexión a la API
+    </div>
+    <div id="banner-seed" class="banner banner-seed hidden">
+      Mostrando datos de demostración — API no disponible
+    </div>
+
+    <main>
+      <section id="ruta-campeon" class="section">
+        <h2 class="section-title">La Ruta del Campeón</h2>
+      </section>
+      <section id="rastreador-goleadas" class="section hidden">
+        <h2 class="section-title">Rastreador de Goleadas</h2>
+      </section>
+      <section id="el-muro" class="section hidden">
+        <h2 class="section-title">El Muro</h2>
+      </section>
+      <section id="analitica-estadios" class="section hidden">
+        <h2 class="section-title">Analítica de Estadios</h2>
+      </section>
+      <section id="radar-empates" class="section hidden">
+        <h2 class="section-title">Radar de Empates</h2>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/api/auth.js"></script>
+  <script src="js/api/fetcher.js"></script>
+  <script src="js/api/endpoints.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/countdown.js"></script>
+  <script src="js/ui/offline.js"></script>
+  <script src="js/sections/rutaCampeon.js"></script>
+  <script src="js/sections/rastreadorGoleadas.js"></script>
+  <script src="js/sections/elMuro.js"></script>
+  <script src="js/sections/analiticaEstadios.js"></script>
+  <script src="js/sections/radarEmpates.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
