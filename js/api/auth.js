@@ -1,4 +1,4 @@
-const API_BASE = 'https://worldcup26.ir';
+const API_BASE = '/api';
 const TOKEN_KEY = 'wc26_token';
 
 async function login(email, password) {
