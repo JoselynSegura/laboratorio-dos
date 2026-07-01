@@ -125,9 +125,17 @@ isAuthenticated()        // retorna true si existe un token guardado
 
 ### ¿Cuál es el endpoint correcto de login?
 
-`POST https://worldcup26.ir/auth/authenticate` con cuerpo `{ email, password }`.
+`POST /auth/authenticate` (sobre `https://worldcup26.ir` en producción, o sobre `/api` en desarrollo local vía el proxy de Vite — ver sección 6) con cuerpo `{ email, password }`.
 
 > **Nota importante:** el endpoint es `/auth/authenticate`, no `/auth/login`. El campo es `email`, no `username`. El error más común al integrar esta API es usar el endpoint o el campo incorrecto — ambos causan un 404 o 401 que parece un error de credenciales.
+
+### ¿Por qué `API_BASE` es `/api` y no la URL completa de `worldcup26.ir`?
+
+```javascript
+const API_BASE = '/api';
+```
+
+Porque en desarrollo local, `fetch()` va al mismo origen (`http://localhost:5173`) y es el proxy de Vite quien reenvía la petición a `https://worldcup26.ir` por detrás (ver sección 6). Usar una ruta relativa en vez de la URL absoluta es lo que permite que el navegador nunca vea la petición como "cross-origin" — así se evita el bloqueo de CORS sin tocar el backend.
 
 ### ¿Cómo se registra un usuario nuevo?
 
@@ -270,17 +278,52 @@ try {
 
 ---
 
-## 6. Nota de desarrollo local — CORS
+## 6. Desarrollo local — proxy de Vite (CORS)
 
-La API de `worldcup26.ir` no incluye el header `Access-Control-Allow-Origin` para orígenes `localhost`. Esto no afecta la entrega ni la defensa (el profesor usa un entorno con la API accessible), pero sí bloquea los fetch del navegador en desarrollo local.
+### ¿Cuál es el problema?
 
-**Solución para trabajar localmente:** abrir Chrome con CORS deshabilitado:
+La API de `worldcup26.ir` no incluye el header `Access-Control-Allow-Origin` para orígenes de desarrollo (`localhost`, `file://`). Eso no es un bug del servidor en sí — simplemente esa API no fue configurada para aceptar peticiones desde un navegador en un origen distinto al suyo. Herramientas como Postman no se ven afectadas porque **CORS es una restricción que solo aplican los navegadores**, no los servidores ni los clientes HTTP; Postman recibe el JWT sin problema, pero el mismo `fetch()` desde el navegador queda bloqueado antes de que el JS pueda leer la respuesta.
+
+Como no se tiene acceso para modificar el backend, la solución no puede depender de agregar headers ahí. Tiene que resolverse del lado del cliente.
+
+### ¿Cómo se resuelve sin tocar el backend?
+
+Con un **proxy de desarrollo**, usando la función nativa de Vite (`server.proxy` en `vite.config.js`):
+
+```javascript
+// vite.config.js
+export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://worldcup26.ir',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
+      }
+    }
+  }
+});
+```
+
+El navegador nunca llama directamente a `worldcup26.ir`. Llama a `/api/...` sobre su propio origen (`http://localhost:5173`), donde no aplica CORS porque no es una petición cross-origin. Vite recibe esa petición internamente y la reenvía él mismo, servidor-a-servidor, hacia `worldcup26.ir` — igual que hace Postman — y devuelve la respuesta al navegador como si viniera de su propio servidor.
+
+### ¿Por qué no usar una extensión o flag de Chrome para deshabilitar CORS?
+
+Es una salida rápida pero frágil: solo funciona en la máquina y el navegador donde se activó, hay que recordar desactivarla, y no refleja cómo se comportaría la app para cualquier otro usuario o evaluador. El proxy de Vite, en cambio, es parte del proyecto (`vite.config.js`), corre para cualquiera que clone el repo y ejecute `npm run dev`, y no requiere tocar la configuración del navegador.
+
+### ¿Este proxy sirve también en producción?
+
+No. `server.proxy` solo existe mientras corre `vite dev`; no forma parte del build (`vite build`) ni de un despliegue estático. Si el proyecto se despliega a un hosting estático (GitHub Pages, Netlify, etc.), esta solución dejaría de aplicar y se necesitaría un backend propio (o una función serverless) que cumpla el mismo rol de intermediario. Para efectos de este laboratorio, alcanza con resolverlo en desarrollo.
+
+### ¿Qué se agregó al proyecto para esto?
 
 ```
-chrome --disable-web-security --user-data-dir="C:\Temp\dev-profile" http://localhost:8080
+package.json     → agrega Vite como devDependency y los scripts dev/build/preview
+vite.config.js   → configuración del proxy /api → https://worldcup26.ir
+.gitignore       → excluye node_modules/ y dist/
 ```
 
-O usar una extensión como "Allow CORS" activada solo mientras se desarrolla.
+El resto del proyecto no cambió de arquitectura: los scripts siguen siendo `<script src="...">` clásicos (no se migró a módulos ES), Vite los sirve igual como archivos estáticos. El único cambio de código fue `API_BASE` en `js/api/auth.js` (ver sección 3).
 
 ---
 
@@ -306,3 +349,9 @@ O usar una extensión como "Allow CORS" activada solo mientras se desarrolla.
 
 **¿Qué ocurre si `setupPasswordToggle()` no encuentra el botón en el DOM?**
 > La guardia `if (!btn || !input) return;` previene que el código falle con un `TypeError`. Esto puede ocurrir si el login-screen está oculto o si el HTML cambia. La función simplemente no registra el listener y el campo de contraseña funciona normalmente (sin toggle).
+
+**¿Por qué Postman podía autenticar contra `worldcup26.ir` pero el navegador lo bloqueaba?**
+> Porque CORS es una restricción exclusiva de los navegadores, no del servidor ni de clientes HTTP como Postman. El servidor sí procesaba la petición y devolvía el JWT correctamente en ambos casos; lo que el navegador bloqueaba era la lectura de esa respuesta por parte del JavaScript, al no encontrar el header `Access-Control-Allow-Origin` para el origen de desarrollo.
+
+**¿Por qué se resolvió con un proxy de Vite y no pidiendo que el backend agregue el header CORS?**
+> Porque `worldcup26.ir` es una API externa sobre la que no se tiene control ni acceso para modificar su configuración. La solución tuvo que aplicarse del lado del cliente: el proxy de Vite hace que el navegador llame a su propio origen (`localhost:5173`), y es Vite quien reenvía la petición al backend real por fuera del navegador, donde CORS no aplica.
