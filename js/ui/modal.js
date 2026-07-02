@@ -8,7 +8,7 @@ function hideExpiredSessionModal() {
   document.getElementById('modal-overlay').classList.add('hidden');
   document.getElementById('reauth-error').textContent = '';
   document.getElementById('reauth-error').classList.add('hidden');
-  document.getElementById('reauth-username').value = '';
+  document.getElementById('reauth-email').value = '';
   document.getElementById('reauth-password').value = '';
 }
 
