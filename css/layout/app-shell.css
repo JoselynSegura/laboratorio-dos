@@ -1,0 +1,89 @@
+#app-screen {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+.app-main-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ── Topbar (mobile-only) ───────────────────── */
+.topbar {
+  display: none;
+  align-items: center;
+  gap: var(--spacing-md);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-sm) var(--spacing-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary-strong);
+}
+
+.btn-drawer-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.btn-drawer-toggle:hover { background: var(--color-primary-soft); border-color: var(--color-primary); }
+
+.topbar-a11y-btn { margin-left: auto; }
+
+/* ── Banners ────────────────────────────────── */
+.banner {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: 0.875rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.banner-offline {
+  background: var(--status-offline-bg);
+  border-bottom: 1px solid var(--status-offline-border);
+  color: var(--status-offline-fg);
+}
+
+.banner-seed {
+  background: var(--status-seed-bg);
+  border-bottom: 1px solid var(--status-seed-border);
+  color: var(--status-seed-fg);
+}
+
+/* ── Main Content ───────────────────────────── */
+main {
+  flex: 1;
+  padding: var(--spacing-xl);
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1023px) {
+  #app-screen { grid-template-columns: var(--sidebar-width-rail) 1fr; }
+}
+
+@media (max-width: 767px) {
+  #app-screen { grid-template-columns: 1fr; }
+
+  .topbar { display: flex; }
+
+  main { padding: var(--spacing-md); }
+}

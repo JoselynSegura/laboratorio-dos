@@ -1,0 +1,67 @@
+/* Panel de accesibilidad (PlanProyecto.md §7.3) — tema oscuro/claro y tamaño de texto */
+
+.a11y-panel {
+  width: 90%;
+  max-width: 380px;
+  text-align: left;
+}
+
+.a11y-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.a11y-panel-head h2 { margin-bottom: 0; }
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.btn-icon:hover {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--text-primary-strong);
+}
+
+.a11y-group { margin-bottom: var(--spacing-lg); }
+.a11y-group:last-child { margin-bottom: 0; }
+
+.a11y-group-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.a11y-segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+/* Botón de apertura del panel dentro del footer del sidebar: mismo molde que
+   .btn-logout, pero con acento primario en vez de accent al pasar el mouse. */
+.btn-a11y-trigger {
+  margin-bottom: var(--spacing-sm);
+}
+
+.btn-a11y-trigger:hover {
+  color: var(--text-primary-strong);
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}

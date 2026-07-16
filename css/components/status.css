@@ -1,0 +1,184 @@
+.loading {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  padding: var(--spacing-lg);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.loading::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--text-muted);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error {
+  background: var(--status-error-bg);
+  border: 1px solid var(--status-error-border);
+  border-radius: var(--border-radius);
+  color: var(--status-error-fg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin: var(--spacing-md) 0;
+}
+
+.offline {
+  background: var(--status-offline-bg);
+  border: 1px solid var(--status-offline-border);
+  border-radius: var(--border-radius);
+  color: var(--status-offline-fg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.875rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.countdown {
+  font-size: 0.875rem;
+  color: var(--status-warning-fg);
+  background: var(--status-warning-bg);
+  border: 1px solid var(--status-warning-border);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: var(--spacing-sm) 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Bloque de estado (vacío / error) — usado por las tres secciones de datos:
+   La Ruta del Campeón, Rastreador de Goleadas y El Muro ── */
+.rc-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl) var(--spacing-lg);
+  background: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--border-radius-lg);
+  color: var(--text-secondary);
+}
+
+.rc-state-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--text-muted);
+}
+
+.rc-state-title {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.0625rem;
+}
+
+.rc-state.rc-state-error .rc-state-icon { color: var(--status-error-fg); }
+
+.btn-retry {
+  min-height: var(--tap-target-min);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-primary);
+  color: var(--text-on-primary);
+  border: none;
+  border-radius: var(--border-radius-pill);
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.btn-retry:hover { opacity: .88; }
+
+/* ── Tarjeta resumen — usada por Rastreador de Goleadas y El Muro ── */
+.rg-summary-card {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  background: var(--gradient-primary);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  margin: var(--spacing-lg) 0;
+  flex-wrap: wrap;
+}
+
+.rg-summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-on-primary);
+  min-width: 140px;
+}
+
+.rg-summary-label {
+  font-size: 0.8125rem;
+  opacity: 0.85;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rg-summary-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.rg-summary-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  align-self: stretch;
+}
+
+@media (max-width: 767px) {
+  .rg-summary-card { gap: var(--spacing-md); padding: var(--spacing-lg) var(--spacing-md); }
+  .rg-summary-divider { display: none; }
+}
+
+/* ── Skeletons (estado cargando) — usados por Rastreador de Goleadas y El Muro ── */
+.rg-summary-skeleton {
+  height: 96px;
+  border-radius: var(--border-radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  margin: var(--spacing-lg) 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.rg-skeleton-card {
+  height: 220px;
+  border-radius: var(--border-radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+
+.rg-summary-skeleton::after,
+.rg-skeleton-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--color-primary-soft), transparent);
+  animation: rg-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes rg-shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rg-summary-skeleton::after,
+  .rg-skeleton-card::after { animation: none; }
+}

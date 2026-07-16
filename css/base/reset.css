@@ -1,0 +1,17 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* El ajuste de tamaño de texto del panel de accesibilidad escala --font-scale
+   sobre el font-size raíz. Como el resto de la app usa rem/em, todo el layout
+   escala en conjunto sin romperse (PlanProyecto.md §7.3). */
+html {
+  font-size: calc(100% * var(--font-scale));
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color var(--transition-slow), color var(--transition-slow);
+}

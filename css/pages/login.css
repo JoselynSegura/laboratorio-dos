@@ -1,0 +1,184 @@
+/* El login siempre usa el mismo tema claro fijo (ver docs/estudio.md §"panel
+   derecho del login"), independiente de la preferencia oscura/clara elegida
+   en el panel de accesibilidad — por eso repinea aquí las pocas variables
+   que sí consume, para que no hereden el data-theme="dark" del <html>. */
+#login-screen {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Inter', var(--font);
+  --status-error-bg:     rgba(248, 81, 73, 0.08);
+  --status-error-border: rgba(196, 33, 58, 0.35);
+  --status-error-fg:     #C4213A;
+}
+
+/* Left hero panel */
+.login-panel-left {
+  position: relative;
+  flex: 0 0 60%;
+  background-color: #0a1220;
+  background-image: url('../../img/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 48px;
+  overflow: hidden;
+}
+
+.login-panel-left::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10,20,35,.78) 0%, rgba(10,20,35,.48) 100%);
+  pointer-events: none;
+}
+
+.login-logo {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.login-hero {
+  position: relative;
+  z-index: 1;
+  margin: auto 0;
+}
+
+.login-hero-title {
+  font-size: clamp(2.5rem, 3.5vw, 4rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  margin-bottom: 24px;
+}
+
+.login-hero-sub {
+  font-size: 1.0625rem;
+  color: rgba(255,255,255,.88);
+  line-height: 1.65;
+  max-width: 440px;
+}
+
+/* Right form panel */
+.login-panel-right {
+  flex: 0 0 40%;
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+}
+
+.login-form-wrapper {
+  width: 100%;
+  max-width: 440px;
+}
+
+.login-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.login-form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 32px;
+  letter-spacing: -.02em;
+}
+
+/* Form field overrides — light panel */
+.login-panel-right .form-group label {
+  color: #374151;
+  font-weight: 500;
+}
+
+.login-panel-right .form-group input {
+  background: #FFFFFF;
+  border-color: #D1D5DB;
+  color: #111827;
+  border-radius: 12px;
+  padding: 13px 16px;
+}
+
+.login-panel-right .form-group input::placeholder { color: #9CA3AF; }
+
+.login-panel-right .form-group input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0,120,255,.12);
+}
+
+/* Password input wrapper */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  flex: 1;
+  width: auto;
+  padding-right: 52px;
+}
+
+.btn-toggle-pw {
+  position: absolute;
+  right: 4px;
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: color 200ms ease;
+}
+
+.btn-toggle-pw:hover { color: #374151; }
+.btn-toggle-pw .icon-eye-off { display: none; }
+.btn-toggle-pw.active .icon-eye { display: none; }
+.btn-toggle-pw.active .icon-eye-off { display: block; }
+
+/* Remove card appearance from #login-form (the panel handles the bg) */
+#login-form {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+  box-shadow: none;
+}
+
+.login-panel-right .error-msg {
+  margin-top: 0;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  /* Login — mobile: hide hero, form takes full screen */
+  .login-panel-left { display: none; }
+
+  .login-panel-right {
+    flex: 1;
+    min-height: 100vh;
+    padding: 40px 24px;
+  }
+}

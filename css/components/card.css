@@ -1,0 +1,30 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  transition: border-color var(--transition);
+}
+
+.card:hover { border-color: var(--color-primary); }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+/* Tratamiento hover/focus compartido por las tarjetas interactivas de Rastreador de
+   Goleadas (.rg-card) y El Muro (.em-card) */
+.rg-card:hover, .rg-card:focus-visible,
+.em-card:hover, .em-card:focus-visible {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+  transform: translateY(-3px) scale(1.01);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rg-card, .em-card { transition: none; }
+  .rg-card:hover, .rg-card:focus-visible,
+  .em-card:hover, .em-card:focus-visible { transform: none; }
+}

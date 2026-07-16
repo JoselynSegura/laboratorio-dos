@@ -1,0 +1,247 @@
+/* La Ruta del Campeón (2.1) — búsqueda, contenido destacado, resultados
+   (el hero de la sección vive en css/components/hero.css, compartido con El Muro) */
+
+.rc-search-block { margin-bottom: var(--spacing-xl); }
+
+/* ── Bloques de contenido destacado ─────────── */
+.rc-featured {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+}
+
+.rc-featured-block-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.rc-featured-block-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rc-featured-block-note {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.rc-chip-row {
+  display: flex;
+  gap: var(--spacing-sm);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--spacing-sm) var(--spacing-xs) var(--spacing-sm) 2px;
+}
+
+.rc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--spacing-md);
+}
+
+/* ── Tarjeta de partido ─────────────────────── */
+.rc-match-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.rc-match-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.rc-match-badges {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.rc-match-teams {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.rc-team-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex: 1;
+  min-width: 0;
+}
+
+.rc-crest {
+  width: 48px;
+  height: 34px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.rc-crest-placeholder {
+  width: 48px;
+  height: 34px;
+  border-radius: var(--border-radius-sm);
+  background: var(--color-primary-soft);
+}
+
+.rc-team-name {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.rc-vs {
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  flex-shrink: 0;
+}
+
+.rc-match-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--spacing-sm);
+}
+
+.rc-match-date {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.rc-match-stadium {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* ── Tarjeta de estadio / ciudad (media con degradado, sin fotos reales) ── */
+.rc-media-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.rc-media-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.rc-media-card-banner {
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: var(--text-on-primary);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.rc-media-card-body {
+  padding: var(--spacing-md);
+}
+
+.rc-media-card-title {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.rc-media-card-detail {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* ── Resultados de un equipo seleccionado ───── */
+.rc-results-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  margin-bottom: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.rc-results-flag {
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.rc-results-team-name {
+  font-size: 1.375rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.rc-results-summary {
+  margin-left: auto;
+}
+
+.rc-btn-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: var(--tap-target-min);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-pill);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.rc-btn-clear:hover { color: var(--color-accent); border-color: var(--color-accent); }
+
+.rc-results-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.rc-results-section-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+@media (max-width: 767px) {
+  .rc-results-summary { margin-left: 0; width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rc-match-card, .rc-media-card { transition: none; }
+  .rc-match-card:hover, .rc-media-card:hover { transform: none; }
+}

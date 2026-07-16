@@ -1,0 +1,78 @@
+/* Radar de Empates (2.5) — matriz de grupos A–L con celdas de empate */
+
+.rd-matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.rd-group-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.rd-group-card:hover { box-shadow: var(--shadow-md); border-color: var(--color-primary); }
+
+.rd-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.rd-group-name {
+  font-weight: 800;
+  font-size: 1.0625rem;
+  color: var(--text-primary);
+}
+
+.rd-group-empty {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.rd-tie-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.rd-tie-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-sm);
+  transition: transform var(--transition);
+}
+
+.rd-tie-cell:hover, .rd-tie-cell:focus-visible {
+  transform: translateY(-1px);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.rd-tie-cell .rc-team-name { font-size: 0.8125rem; }
+
+.rd-tie-score {
+  flex-shrink: 0;
+  font-weight: 800;
+  font-size: 0.875rem;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-soft);
+  border-radius: var(--border-radius-pill);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.rd-skeleton-card { height: 160px; }

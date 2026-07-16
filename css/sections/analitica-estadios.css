@@ -1,0 +1,158 @@
+/* Analítica de Estadios (2.4) — gráfica de barras SVG comparando capacidad vs partidos */
+
+.ae-notice {
+  max-width: 720px;
+  margin: 0 auto var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ae-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.ae-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.ae-row:hover { box-shadow: var(--shadow-md); border-color: var(--color-primary); }
+
+.ae-row-featured {
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  border: none;
+}
+
+.ae-row-featured .ae-name,
+.ae-row-featured .ae-city,
+.ae-row-featured .ae-rank,
+.ae-row-featured .ae-metric-label,
+.ae-row-featured .ae-metric-value,
+.ae-row-featured .ae-potential-label,
+.ae-row-featured .ae-potential-value { color: var(--text-on-primary); }
+
+.ae-row-featured .ae-bar-track { fill: rgba(255, 255, 255, 0.25); }
+.ae-row-featured .ae-bar-fill { fill: var(--text-on-primary); }
+
+.ae-row-featured .badge-primary {
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--text-on-primary);
+}
+
+.ae-row-head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  min-width: 220px;
+  flex: 1 1 220px;
+}
+
+.ae-rank {
+  font-weight: 800;
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.ae-row-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ae-name {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+}
+
+.ae-city {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.ae-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 2 1 320px;
+}
+
+.ae-metric {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.ae-metric-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  min-width: 130px;
+}
+
+.ae-metric-value {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ae-metric-pending {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.ae-bar-svg { flex-shrink: 0; max-width: 200px; width: 100%; }
+.ae-bar-track { fill: var(--bg-primary); }
+.ae-bar-capacity .ae-bar-fill { fill: var(--color-primary); }
+.ae-bar-matches .ae-bar-fill { fill: var(--color-accent); }
+
+.ae-potential {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  margin-left: auto;
+  text-align: right;
+}
+
+.ae-potential-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.ae-potential-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ae-skeleton-row { height: 96px; }
+
+@media (max-width: 700px) {
+  .ae-row { padding: var(--spacing-md); }
+  .ae-potential { align-items: flex-start; text-align: left; margin-left: 0; }
+  .ae-bar-svg { max-width: 100%; }
+}

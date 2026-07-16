@@ -1,0 +1,211 @@
+/* El Muro (2.3) — hero, resumen, filtros, grid de defensas */
+
+.em-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 900px) {
+  .em-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Tarjeta de equipo ───────────────────────── */
+.em-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.em-card-top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.em-rank {
+  font-weight: 800;
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+}
+
+.em-crown-badge {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-on-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+}
+
+.em-team-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  text-align: center;
+  padding: var(--spacing-sm) 0;
+}
+
+.em-flag-lg.rc-crest,
+.em-flag-lg.rc-crest-placeholder {
+  width: 72px;
+  height: 52px;
+}
+
+.em-team-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.em-team-fallback {
+  font-weight: 500;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* ── Métrica de goles recibidos ──────────────── */
+.em-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.em-metric-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.em-metric-value {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.em-metric-value.em-metric-elite { color: var(--text-success-strong); }
+
+.em-defense-bar {
+  width: 100%;
+  max-width: 220px;
+  height: 8px;
+  border-radius: var(--border-radius-pill);
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.em-defense-bar-fill {
+  height: 100%;
+  border-radius: var(--border-radius-pill);
+  background: var(--color-success);
+}
+
+/* ── Badges inferiores ───────────────────────── */
+.em-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.em-icon { flex-shrink: 0; }
+
+/* ── Próximo partido (mini tarjeta anidada) ─── */
+.em-next-match {
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+}
+
+.em-next-match-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+.em-next-match-teams {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.em-next-match-date {
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-sm);
+}
+
+.em-next-match-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  color: var(--text-success-strong);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* ── Tarjeta destacada (#1, mejor defensa) ───── */
+.em-card-featured {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--color-gold-dark), var(--color-gold));
+  border: none;
+}
+
+.em-card-featured .em-rank,
+.em-card-featured .em-team-name,
+.em-card-featured .em-metric-label,
+.em-card-featured .em-metric-value.em-metric-elite {
+  color: var(--text-on-primary);
+}
+
+.em-card-featured .em-defense-bar { background: rgba(255, 255, 255, 0.25); }
+.em-card-featured .em-defense-bar-fill { background: var(--text-on-primary); }
+
+.em-card-featured .badge-neutral,
+.em-card-featured .badge-success {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-on-primary);
+}
+
+.em-card-featured .em-next-match {
+  background: rgba(255, 255, 255, 0.14);
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.em-card-featured .em-next-match-label,
+.em-card-featured .em-next-match-date { color: rgba(255, 255, 255, 0.85); }
+.em-card-featured .em-next-match-empty { color: var(--text-on-primary); }
+
+.em-card-featured .em-team-block { padding: var(--spacing-md) 0; }
+

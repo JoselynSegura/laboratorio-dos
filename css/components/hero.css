@@ -1,0 +1,34 @@
+/* Hero de sección — compartido por La Ruta del Campeón y El Muro (ambos usan
+   las clases rc-hero* directamente en su markup). */
+.rc-hero {
+  text-align: center;
+  padding: var(--spacing-xl) 0 var(--spacing-lg);
+}
+
+.rc-hero-eyebrow {
+  display: inline-block;
+  color: var(--text-accent-strong);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-sm);
+}
+
+.rc-hero-title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(120deg, var(--color-primary-dark), var(--color-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: var(--spacing-sm);
+}
+
+.rc-hero-sub {
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  max-width: 560px;
+  margin: 0 auto var(--spacing-lg);
+}

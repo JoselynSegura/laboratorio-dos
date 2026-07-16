@@ -1,0 +1,33 @@
+.btn-login {
+  width: 100%;
+  padding: 14px var(--spacing-md);
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: .01em;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.btn-login:hover:not(:disabled) { opacity: .88; transform: translateY(-1px); }
+.btn-login:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+#reauth-btn {
+  width: 100%;
+  padding: 10px var(--spacing-md);
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: var(--spacing-sm);
+  transition: opacity var(--transition);
+}
+
+#reauth-btn:hover:not(:disabled) { opacity: .85; }
+#reauth-btn:disabled { opacity: .6; cursor: not-allowed; }

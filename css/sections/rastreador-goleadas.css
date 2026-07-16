@@ -1,0 +1,213 @@
+/* Rastreador de Goleadas (2.2) — hero, resumen, búsqueda, filtros, cards */
+
+/* ── Hero ───────────────────────────────────── */
+.rg-hero {
+  text-align: center;
+  padding: var(--spacing-lg) 0 var(--spacing-md);
+}
+
+.rg-hero-eyebrow {
+  display: inline-block;
+  color: var(--text-accent-strong);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-sm);
+}
+
+.rg-hero-title {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.rg-hero-sub {
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* Tarjeta resumen (.rg-summary-*) y skeletons (.rg-summary-skeleton, .rg-skeleton-card)
+   viven en css/components/status.css — las usan también Rastreador de Goleadas y El Muro. */
+
+/* ── Toolbar: búsqueda + filtros ────────────── */
+.rg-toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.rg-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+/* ── Grid de partidos ───────────────────────── */
+.rg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 1280px) {
+  .rg-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .rg-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Tarjeta de partido ─────────────────────── */
+.rg-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.rg-card-top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.rg-rank {
+  font-weight: 800;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.rg-diff-badge {
+  margin-left: auto;
+  background: var(--color-accent);
+  color: var(--text-on-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+}
+
+.rg-card-matchup {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.rg-team-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.rg-team-name {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.rg-score-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.rg-score {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.rg-vs {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.rg-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--spacing-sm);
+}
+
+.rg-meta-icon { flex-shrink: 0; }
+
+/* ── Tarjeta destacada (mayor goleada) ──────── */
+.rg-card-featured {
+  grid-column: 1 / -1;
+  background: var(--gradient-primary);
+  border: none;
+}
+
+.rg-card-featured .rg-rank,
+.rg-card-featured .rg-team-name,
+.rg-card-featured .rg-score,
+.rg-card-featured .rg-vs {
+  color: var(--text-on-primary);
+}
+
+.rg-card-featured .rg-vs { opacity: 0.75; }
+.rg-card-featured .rg-score { font-size: 3rem; }
+
+.rg-card-featured .rg-card-matchup { max-width: 520px; margin: 0 auto; gap: var(--spacing-lg); }
+
+.rg-featured-badge {
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--text-on-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-pill);
+}
+
+.rg-card-featured .rg-card-meta {
+  border-top-color: rgba(255, 255, 255, 0.2);
+  justify-content: center;
+}
+
+.rg-card-featured .badge-neutral {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-on-primary);
+}
+
+.rg-card-featured .badge-primary {
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--text-on-primary);
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 767px) {
+  .rg-card-featured .rg-score { font-size: 2.25rem; }
+}
+
