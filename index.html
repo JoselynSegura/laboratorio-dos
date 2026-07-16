@@ -4,14 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mundial 2026 — Analítica</title>
+  <script>
+    // Aplica el tema y el tamaño de texto guardados ANTES del primer render
+    // para evitar parpadeo (FOUC) — ver PlanProyecto.md §7.3. Debe ejecutarse
+    // aquí, en <head>, antes de que el CSS externo pinte la página.
+    (function () {
+      try {
+        var theme = localStorage.getItem('wc26_theme');
+        if (!theme) theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+        var fontScale = localStorage.getItem('wc26_font_scale');
+        if (fontScale && fontScale !== 'normal') document.documentElement.setAttribute('data-font-scale', fontScale);
+      } catch (_) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
-  <div id="login-screen">
+  <div id="login-screen" role="main">
 
     <div class="login-panel-left">
       <div class="login-logo">
@@ -68,42 +83,106 @@
     <button id="reauth-btn">Reautenticarse</button>
   </div>
 
+  <div id="a11y-overlay" class="modal-overlay hidden"></div>
+
+  <div id="a11y-panel" class="modal a11y-panel hidden" role="dialog" aria-modal="true" aria-labelledby="a11y-panel-title">
+    <div class="a11y-panel-head">
+      <h2 id="a11y-panel-title">Accesibilidad</h2>
+      <button type="button" id="a11y-close" class="btn-icon" aria-label="Cerrar panel de accesibilidad">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="a11y-group">
+      <span class="a11y-group-label" id="a11y-theme-label">Tema</span>
+      <div class="a11y-segmented" role="group" aria-labelledby="a11y-theme-label">
+        <button type="button" class="chip a11y-option" data-theme-option="light" aria-pressed="true">Claro</button>
+        <button type="button" class="chip a11y-option" data-theme-option="dark" aria-pressed="false">Oscuro</button>
+      </div>
+    </div>
+
+    <div class="a11y-group">
+      <span class="a11y-group-label" id="a11y-fontsize-label">Tamaño de texto</span>
+      <div class="a11y-segmented" role="group" aria-labelledby="a11y-fontsize-label">
+        <button type="button" class="chip a11y-option" data-font-option="normal" aria-pressed="true">Normal</button>
+        <button type="button" class="chip a11y-option" data-font-option="large" aria-pressed="false">Grande</button>
+        <button type="button" class="chip a11y-option" data-font-option="xlarge" aria-pressed="false">Muy grande</button>
+      </div>
+    </div>
+  </div>
+
   <div id="app-screen" class="hidden">
-    <header>
-      <h1>Mundial 2026 — Analítica</h1>
-      <nav>
-        <button class="nav-btn active" data-section="ruta-campeon">La Ruta del Campeón</button>
-        <button class="nav-btn" data-section="rastreador-goleadas">Rastreador de Goleadas</button>
-        <button class="nav-btn" data-section="el-muro">El Muro</button>
-        <button class="nav-btn" data-section="analitica-estadios">Analítica de Estadios</button>
-        <button class="nav-btn" data-section="radar-empates">Radar de Empates</button>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+        <span>Mundial 2026</span>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Secciones de la aplicación">
+        <button class="nav-btn active" data-section="ruta-campeon" aria-current="page">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span class="nav-label">La Ruta del Campeón</span>
+        </button>
+        <button class="nav-btn" data-section="rastreador-goleadas">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <span class="nav-label">Rastreador de Goleadas</span>
+        </button>
+        <button class="nav-btn" data-section="el-muro">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="nav-label">El Muro</span>
+        </button>
+        <button class="nav-btn" data-section="analitica-estadios">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span class="nav-label">Analítica de Estadios</span>
+        </button>
+        <button class="nav-btn" data-section="radar-empates">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.25a6 6 0 0 1 0-8.49M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/></svg>
+          <span class="nav-label">Radar de Empates</span>
+        </button>
       </nav>
-    </header>
 
-    <div id="banner-offline" class="banner banner-offline hidden">
-      Mostrando datos guardados — sin conexión a la API
-    </div>
-    <div id="banner-seed" class="banner banner-seed hidden">
-      Mostrando datos de demostración — API no disponible
+      <div class="sidebar-footer">
+        <button type="button" class="btn-logout btn-a11y-trigger a11y-trigger" aria-label="Abrir panel de accesibilidad" aria-haspopup="dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          <span>Accesibilidad</span>
+        </button>
+        <button id="logout-btn" class="btn-logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
+
+      <div class="sidebar-resizer" id="sidebar-resizer" role="separator" aria-orientation="vertical" aria-label="Ajustar ancho del menú" aria-valuemin="200" aria-valuemax="400" tabindex="0"></div>
+    </aside>
+
+    <div class="app-main-col">
+      <header class="topbar">
+        <button id="sidebar-toggle" class="btn-drawer-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <span class="topbar-title">Mundial 2026 — Analítica</span>
+        <button type="button" class="btn-drawer-toggle a11y-trigger topbar-a11y-btn" aria-label="Abrir panel de accesibilidad" aria-haspopup="dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        </button>
+      </header>
+
+      <div id="banner-offline" class="banner banner-offline hidden" role="status" aria-live="polite">
+        Mostrando datos guardados — sin conexión a la API
+      </div>
+      <div id="banner-seed" class="banner banner-seed hidden" role="status" aria-live="polite">
+        Mostrando datos de demostración — API no disponible
+      </div>
+
+      <main>
+        <section id="ruta-campeon" class="section"></section>
+        <section id="rastreador-goleadas" class="section hidden"></section>
+        <section id="el-muro" class="section hidden"></section>
+        <section id="analitica-estadios" class="section hidden"></section>
+        <section id="radar-empates" class="section hidden"></section>
+      </main>
     </div>
 
-    <main>
-      <section id="ruta-campeon" class="section">
-        <h2 class="section-title">La Ruta del Campeón</h2>
-      </section>
-      <section id="rastreador-goleadas" class="section hidden">
-        <h2 class="section-title">Rastreador de Goleadas</h2>
-      </section>
-      <section id="el-muro" class="section hidden">
-        <h2 class="section-title">El Muro</h2>
-      </section>
-      <section id="analitica-estadios" class="section hidden">
-        <h2 class="section-title">Analítica de Estadios</h2>
-      </section>
-      <section id="radar-empates" class="section hidden">
-        <h2 class="section-title">Radar de Empates</h2>
-      </section>
-    </main>
+    <div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
   </div>
 
   <script src="js/api/auth.js"></script>
@@ -112,6 +191,9 @@
   <script src="js/ui/modal.js"></script>
   <script src="js/ui/countdown.js"></script>
   <script src="js/ui/offline.js"></script>
+  <script src="js/ui/sidebar.js"></script>
+  <script src="js/ui/accessibility.js"></script>
+  <script src="js/sections/shared.js"></script>
   <script src="js/sections/rutaCampeon.js"></script>
   <script src="js/sections/rastreadorGoleadas.js"></script>
   <script src="js/sections/elMuro.js"></script>

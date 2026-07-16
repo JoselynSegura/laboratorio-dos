@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupLoginForm();
   setupReauthForm();
   setupPasswordToggle();
+  setupLogout();
+  setupSidebarToggle();
+  setupSidebarResize();
+  setupAccessibilityPanel();
 });
 
 function showApp() {
@@ -24,12 +28,18 @@ function showLoginScreen() {
 
 function activateSection(sectionId) {
   document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.remove('active');
+    b.removeAttribute('aria-current');
+  });
 
   const section = document.getElementById(sectionId);
   const btn = document.querySelector(`.nav-btn[data-section="${sectionId}"]`);
   if (section) section.classList.remove('hidden');
-  if (btn) btn.classList.add('active');
+  if (btn) {
+    btn.classList.add('active');
+    btn.setAttribute('aria-current', 'page');
+  }
 
   initSection(sectionId);
 }
@@ -44,6 +54,13 @@ function initSection(sectionId) {
   };
   const fn = initializers[sectionId];
   if (fn) fn();
+}
+
+function setupLogout() {
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    clearToken();
+    showLoginScreen();
+  });
 }
 
 function setupNavigation() {
@@ -110,6 +127,7 @@ function setupReauthForm() {
     try {
       await login(email, password);
       hideExpiredSessionModal();
+      notifySessionRestored();
     } catch (err) {
       showModalError(err.message);
     } finally {
